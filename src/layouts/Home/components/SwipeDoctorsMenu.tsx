@@ -2,6 +2,7 @@ import { FetchSingleDoctor } from "./FetchSingleDoctor";
 import { useEffect, useState } from "react";
 import DoctorModel from "../../../models/DoctorModel";
 import { LoadingSpinner } from "../../utils/LoadingSpinner";
+import { Link } from "react-router-dom";
 
 export const SwipeDoctorsMenu = () => {
   const [doctors, setDoctors] = useState<DoctorModel[]>([]);
@@ -128,9 +129,9 @@ export const SwipeDoctorsMenu = () => {
         </div>
       </div>
       <div className="homepage-carousel-title mt-3">
-        <a className="btn btn-outline-secondary btn-lg" href="#">
-          View More
-        </a>
+        <Link className="btn btn-outline-secondary btn-lg" to="/find-doctors">
+          Find More
+        </Link>
       </div>
     </div>
   );
