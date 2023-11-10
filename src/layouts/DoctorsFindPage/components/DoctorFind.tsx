@@ -46,7 +46,7 @@ export const DoctorFind: React.FC<{ doctor: DoctorModel }> = (props) => {
         <div className="col-md-6">
           <div className="card-body">
             <h5 className="card-title">{props.doctor.role}</h5>
-            <h4>{props.doctor.firstName + " " + props.doctor.firstName}</h4>
+            <h4>{props.doctor.firstName + " " + props.doctor.lastName}</h4>
             <p className="card-text">{props.doctor.dept}</p>
           </div>
         </div>
