@@ -10,7 +10,7 @@ export const SwipeDoctorsMenu = () => {
   const [httpError, setHttpError] = useState(null);
 
   useEffect(() => {
-    const retrieveDoctor = async () => {
+    const retrieveDoctors = async () => {
       const baseUrl: string = "http://localhost:8080/shcms/doctors";
       const url: string = `${baseUrl}?page=0&size=9`;
       const response = await fetch(url);
@@ -40,7 +40,7 @@ export const SwipeDoctorsMenu = () => {
       setIsLoading(false);
     };
 
-    retrieveDoctor().catch((error: any) => {
+    retrieveDoctors().catch((error: any) => {
       setIsLoading(false);
       setHttpError(error.message);
     });
