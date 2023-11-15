@@ -1,5 +1,6 @@
 import React from "react";
 import DoctorModel from "../../../models/DoctorModel";
+import { Link } from "react-router-dom";
 
 export const FetchSingleDoctor: React.FC<{ doctor: DoctorModel }> = (props) => {
   return (
@@ -19,9 +20,12 @@ export const FetchSingleDoctor: React.FC<{ doctor: DoctorModel }> = (props) => {
           {props.doctor.firstName + " " + props.doctor.lastName}
         </h6>
         <p>{props.doctor.role}</p>
-        <a className="btn main-color text-white" href="#">
+        <Link
+          className="btn main-color text-white"
+          to={`info-doctor/${props.doctor.id}`}
+        >
           Book
-        </a>
+        </Link>
       </div>
     </div>
   );

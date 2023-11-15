@@ -1,4 +1,9 @@
+import { useOktaAuth } from "@okta/okta-react";
+import { Link } from "react-router-dom";
+
 export const HomePageDescription = () => {
+  const { authState } = useOktaAuth();
+
   return (
     <div>
       <div className="d-none d-lg-block">
@@ -14,9 +19,19 @@ export const HomePageDescription = () => {
                 Most.Consult Top Doctors By Speciality For Any Health
                 Concern.Create your account to book appointment.
               </p>
-              <a className="btn main-color btn-lg text-white" href="#">
-                Registration
-              </a>
+              {authState?.isAuthenticated ? (
+                <Link
+                  type="button"
+                  className="btn main-color btn-lg text-white"
+                  to="search"
+                >
+                  Find Best Doctors{" "}
+                </Link>
+              ) : (
+                <Link className="btn main-color btn-lg text-white" to="/login">
+                  Registration
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -39,7 +54,7 @@ export const HomePageDescription = () => {
         </div>
       </div>
 
-      {/* Mobile Heros */}
+      {/* Mobile Home Page Description */}
       <div className="d-lg-none">
         <div className="container">
           <div className="m-2">
@@ -51,9 +66,19 @@ export const HomePageDescription = () => {
                 Most.Consult Top Doctors By Speciality For Any Health
                 Concern.Create your account to book appointment.
               </p>
-              <a className="btn main-color btn-lg text-white" href="#">
-                Registration
-              </a>
+              {authState?.isAuthenticated ? (
+                <Link
+                  type="button"
+                  className="btn main-color btn-lg text-white"
+                  to="search"
+                >
+                  Find Best Doctors{" "}
+                </Link>
+              ) : (
+                <Link className="btn main-color btn-lg text-white" to="/login">
+                  Registration
+                </Link>
+              )}
             </div>
           </div>
           <div className="m-2">
