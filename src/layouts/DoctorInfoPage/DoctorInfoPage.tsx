@@ -6,6 +6,7 @@ import { DoctorReviewAppointmentBox } from "./DoctorReviewAppointmentBox";
 import ReviewModel from "../../models/ReviewModel";
 import { ReviewsRecent } from "./ReviewsRecent";
 import { useOktaAuth } from "@okta/okta-react";
+import ReviewRequestModel from "../../models/ReviewRequestModel";
 
 export const DoctorInfoPage = () => {
   const [doctor, setDoctor] = useState<DoctorModel>();
@@ -16,6 +17,8 @@ export const DoctorInfoPage = () => {
   const [reviews, setReviews] = useState<ReviewModel[]>([]);
   const [totalStars, setTotalStars] = useState(0);
   const [isLoadingReview, setIsLoadingReview] = useState(true);
+  const [isReviewGiven, setIsReviewGiven] = useState(false);
+  const [isLoadingUserReview, setIsLoadingUserReview] = useState(true);
 
   const { authState } = useOktaAuth();
 
@@ -109,7 +112,33 @@ export const DoctorInfoPage = () => {
       setIsLoadingReview(false);
       setHttpError(error.message);
     });
-  }, []);
+  }, [isReviewGiven]);
+
+  useEffect(() => {
+    const retrieveUserReviewBook = async () => {
+      if (authState && authState.isAuthenticated) {
+        const url = `http://localhost:8080/shcms/reviews/secure/user/doctor?doctorId=${doctorId}`;
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        };
+        const userReview = await fetch(url, requestOptions);
+        if (!userReview.ok) {
+          throw new Error("Error occurred");
+        }
+        const userReviewResponseJson = await userReview.json();
+        setIsReviewGiven(userReviewResponseJson);
+      }
+      setIsLoadingUserReview(false);
+    };
+    retrieveUserReviewBook().catch((error: any) => {
+      setIsLoadingUserReview(false);
+      setHttpError(error.message);
+    });
+  }, [authState]);
 
   useEffect(() => {
     const retrieveUserCurrentAppointmentsCount = async () => {
@@ -172,7 +201,8 @@ export const DoctorInfoPage = () => {
     isLoading ||
     isLoadingReview ||
     isLoadingCurrentAppointmentsCount ||
-    isLoadingDoctorAppointment
+    isLoadingDoctorAppointment ||
+    isLoadingUserReview
   ) {
     return <LoadingSpinner />;
   }
@@ -199,6 +229,36 @@ export const DoctorInfoPage = () => {
       throw new Error("Error occurred");
     }
     setIsAppointment(true);
+  }
+
+  async function submitReview(starInput: number, reviewDescription: string) {
+    let doctorId: number = 0;
+    if (doctor?.id) {
+      doctorId = doctor.id;
+    }
+
+    const reviewRequestModel = new ReviewRequestModel(
+      starInput,
+      doctorId,
+      reviewDescription
+    );
+    const url = `http://localhost:8080/shcms/reviews/secure`;
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reviewRequestModel),
+    };
+
+    const returnResponse = await fetch(url, requestOptions);
+
+    if (!returnResponse.ok) {
+      throw new Error("Error occurred");
+    }
+
+    setIsReviewGiven(true);
   }
 
   return (
@@ -232,6 +292,8 @@ export const DoctorInfoPage = () => {
             isAuthenticated={authState?.isAuthenticated}
             isAppointment={isAppointment}
             appointmentDoctor={appointmentDoctor}
+            isReviewGiven={isReviewGiven}
+            submitReview={submitReview}
           />
         </div>
         <hr />
@@ -265,6 +327,8 @@ export const DoctorInfoPage = () => {
           isAuthenticated={authState?.isAuthenticated}
           isAppointment={isAppointment}
           appointmentDoctor={appointmentDoctor}
+          isReviewGiven={isReviewGiven}
+          submitReview={submitReview}
         />
         <hr />
         <ReviewsRecent reviews={reviews} doctorId={doctor?.id} mobile={true} />

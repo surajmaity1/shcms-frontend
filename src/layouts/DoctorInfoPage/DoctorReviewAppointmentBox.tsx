@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import DoctorModel from "../../models/DoctorModel";
+import { CreateReview } from "../utils/CreateReview";
 
 export const DoctorReviewAppointmentBox: React.FC<{
   doctor: DoctorModel | undefined;
@@ -8,6 +9,8 @@ export const DoctorReviewAppointmentBox: React.FC<{
   isAuthenticated: any;
   isAppointment: boolean;
   appointmentDoctor: any;
+  isReviewGiven: boolean;
+  submitReview: any;
 }> = (props) => {
   function buttonAppointment() {
     if (props.isAuthenticated) {
@@ -39,6 +42,28 @@ export const DoctorReviewAppointmentBox: React.FC<{
       <Link to={"/login"} className="btn btn-success btn-lg">
         Log in
       </Link>
+    );
+  }
+
+  function reviewRender() {
+    if (props.isAuthenticated && !props.isReviewGiven) {
+      return (
+        <p>
+          <CreateReview submitReview={props.submitReview} />
+        </p>
+      );
+    } else if (props.isAuthenticated && props.isReviewGiven) {
+      return (
+        <p>
+          <b>Thank you for Review Submission</b>
+        </p>
+      );
+    }
+    return (
+      <div>
+        <hr />
+        <p>Complete Appointment to Give Review</p>
+      </div>
     );
   }
 
@@ -79,7 +104,7 @@ export const DoctorReviewAppointmentBox: React.FC<{
           Results may differ untill appointment completion. Hurry up to book
           your appointment.
         </p>
-        <p>Complete appointment to leave a review.</p>
+        {reviewRender()}
       </div>
     </div>
   );

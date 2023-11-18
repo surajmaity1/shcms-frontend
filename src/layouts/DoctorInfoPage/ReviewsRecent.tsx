@@ -23,7 +23,7 @@ export const ReviewsRecent: React.FC<{
               <Link
                 type="button"
                 className="btn main-color btn-md text-white"
-                to="#"
+                to={`/all-reviews/${props.doctorId}`}
               >
                 Read More
               </Link>
