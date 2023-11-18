@@ -4,7 +4,44 @@ import DoctorModel from "../../models/DoctorModel";
 export const DoctorReviewAppointmentBox: React.FC<{
   doctor: DoctorModel | undefined;
   mobile: boolean;
+  currentAppointmentsCount: number;
+  isAuthenticated: any;
+  isAppointment: boolean;
+  appointmentDoctor: any;
 }> = (props) => {
+  function buttonAppointment() {
+    if (props.isAuthenticated) {
+      if (!props.isAppointment && props.currentAppointmentsCount < 3) {
+        return (
+          <button
+            onClick={() => props.appointmentDoctor()}
+            className="btn btn-success btn-lg"
+          >
+            Book Appointment
+          </button>
+        );
+      } else if (props.isAppointment) {
+        return (
+          <p>
+            <b>Appointment Accepted</b>
+          </p>
+        );
+      } else if (!props.isAppointment) {
+        return (
+          <p className="text-danger">
+            3 Appointments Allowed Per Day. <br />
+            To Book New Appointments, Cancel Previous One.
+          </p>
+        );
+      }
+    }
+    return (
+      <Link to={"/login"} className="btn btn-success btn-lg">
+        Log in
+      </Link>
+    );
+  }
+
   return (
     <div
       className={
@@ -14,8 +51,8 @@ export const DoctorReviewAppointmentBox: React.FC<{
       <div className="card-body container">
         <div className="mt-3">
           <p>
-            <b>0/20 </b>
-            appointments booked.
+            <b>{props.currentAppointmentsCount} / 3 </b>
+            Appointments Booked
           </p>
           <hr />
           {props.doctor &&
@@ -36,9 +73,7 @@ export const DoctorReviewAppointmentBox: React.FC<{
             </p>
           </div>
         </div>
-        <Link to="/#" className="btn btn-success btn-lg">
-          Log In
-        </Link>
+        {buttonAppointment()}
         <hr />
         <p className="mt-3">
           Results may differ untill appointment completion. Hurry up to book

@@ -5,6 +5,7 @@ import { ReviewStar } from "../utils/ReviewStar";
 import { DoctorReviewAppointmentBox } from "./DoctorReviewAppointmentBox";
 import ReviewModel from "../../models/ReviewModel";
 import { ReviewsRecent } from "./ReviewsRecent";
+import { useOktaAuth } from "@okta/okta-react";
 
 export const DoctorInfoPage = () => {
   const [doctor, setDoctor] = useState<DoctorModel>();
@@ -15,6 +16,20 @@ export const DoctorInfoPage = () => {
   const [reviews, setReviews] = useState<ReviewModel[]>([]);
   const [totalStars, setTotalStars] = useState(0);
   const [isLoadingReview, setIsLoadingReview] = useState(true);
+
+  const { authState } = useOktaAuth();
+
+  // Appointment Count State
+  const [currentAppointmentsCount, setCurrentAppointmentsCount] = useState(0);
+  const [
+    isLoadingCurrentAppointmentsCount,
+    setIsLoadingCurrentAppointmentsCount,
+  ] = useState(true);
+
+  // check Doctor Appointment booked
+  const [isAppointment, setIsAppointment] = useState(false);
+  const [isLoadingDoctorAppointment, setIsLoadingDoctorAppointment] =
+    useState(true);
 
   const doctorId = window.location.pathname.split("/")[2];
 
@@ -47,7 +62,7 @@ export const DoctorInfoPage = () => {
       setIsLoading(false);
       setHttpError(error.message);
     });
-  }, []);
+  }, [isAppointment]);
 
   useEffect(() => {
     const retrieveDoctorReviews = async () => {
@@ -96,7 +111,69 @@ export const DoctorInfoPage = () => {
     });
   }, []);
 
-  if (isLoading || isLoadingReview) {
+  useEffect(() => {
+    const retrieveUserCurrentAppointmentsCount = async () => {
+      if (authState && authState.isAuthenticated) {
+        const url = `http://localhost:8080/shcms/doctors/secure/currentappointments/count`;
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        };
+        const currentAppointmentCountResponse = await fetch(
+          url,
+          requestOptions
+        );
+        if (!currentAppointmentCountResponse.ok) {
+          throw new Error("Error occurred!");
+        }
+        const currentAppointmentsCountResponseJson =
+          await currentAppointmentCountResponse.json();
+        setCurrentAppointmentsCount(currentAppointmentsCountResponseJson);
+      }
+      setIsLoadingCurrentAppointmentsCount(false);
+    };
+    retrieveUserCurrentAppointmentsCount().catch((error: any) => {
+      setIsLoadingCurrentAppointmentsCount(false);
+      setHttpError(error.message);
+    });
+  }, [authState, isAppointment]);
+
+  useEffect(() => {
+    const retrieveUserAppointmentDoctor = async () => {
+      if (authState && authState.isAuthenticated) {
+        const url = `http://localhost:8080/shcms/doctors/secure/isappointment/byuser?doctorId=${doctorId}`;
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        };
+        const doctorAppointment = await fetch(url, requestOptions);
+
+        if (!doctorAppointment.ok) {
+          throw new Error("Error occurred");
+        }
+
+        const doctorAppointmentResponseJson = await doctorAppointment.json();
+        setIsAppointment(doctorAppointmentResponseJson);
+      }
+      setIsLoadingDoctorAppointment(false);
+    };
+    retrieveUserAppointmentDoctor().catch((error: any) => {
+      setIsLoadingDoctorAppointment(false);
+      setHttpError(error.message);
+    });
+  }, [authState]);
+  if (
+    isLoading ||
+    isLoadingReview ||
+    isLoadingCurrentAppointmentsCount ||
+    isLoadingDoctorAppointment
+  ) {
     return <LoadingSpinner />;
   }
 
@@ -106,6 +183,22 @@ export const DoctorInfoPage = () => {
         <p>{httpError}</p>
       </div>
     );
+  }
+
+  async function appointmentDoctor() {
+    const url = `http://localhost:8080/shcms/doctors/secure/appointment?doctorId=${doctor?.id}`;
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const checkoutResponse = await fetch(url, requestOptions);
+    if (!checkoutResponse.ok) {
+      throw new Error("Error occurred");
+    }
+    setIsAppointment(true);
   }
 
   return (
@@ -132,7 +225,14 @@ export const DoctorInfoPage = () => {
               <ReviewStar rating={totalStars} size={32} />
             </div>
           </div>
-          <DoctorReviewAppointmentBox doctor={doctor} mobile={false} />
+          <DoctorReviewAppointmentBox
+            doctor={doctor}
+            mobile={false}
+            currentAppointmentsCount={currentAppointmentsCount}
+            isAuthenticated={authState?.isAuthenticated}
+            isAppointment={isAppointment}
+            appointmentDoctor={appointmentDoctor}
+          />
         </div>
         <hr />
         <ReviewsRecent reviews={reviews} doctorId={doctor?.id} mobile={false} />
@@ -158,7 +258,14 @@ export const DoctorInfoPage = () => {
             <ReviewStar rating={totalStars} size={32} />
           </div>
         </div>
-        <DoctorReviewAppointmentBox doctor={doctor} mobile={true} />
+        <DoctorReviewAppointmentBox
+          doctor={doctor}
+          mobile={true}
+          currentAppointmentsCount={currentAppointmentsCount}
+          isAuthenticated={authState?.isAuthenticated}
+          isAppointment={isAppointment}
+          appointmentDoctor={appointmentDoctor}
+        />
         <hr />
         <ReviewsRecent reviews={reviews} doctorId={doctor?.id} mobile={true} />
       </div>
