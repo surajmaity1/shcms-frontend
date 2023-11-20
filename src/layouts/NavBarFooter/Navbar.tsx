@@ -40,6 +40,13 @@ export const Navbar = () => {
                 Find Doctor
               </NavLink>
             </li>
+            {authState.isAuthenticated && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/appointments">
+                  Appointments
+                </NavLink>
+              </li>
+            )}
           </ul>
           <ul className="navbar-nav ms-auto">
             {!authState.isAuthenticated ? (

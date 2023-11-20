@@ -8,9 +8,10 @@ import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { DoctorInfoPage } from "./layouts/DoctorInfoPage/DoctorInfoPage";
 import { oktaConfig } from "./lib/oktaConfig";
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
-import { LoginCallback, Security } from "@okta/okta-react";
+import { LoginCallback, SecureRoute, Security } from "@okta/okta-react";
 import LogInWidget from "./Auth/LogInWidget";
 import { AllReviews } from "./layouts/DoctorInfoPage/AllReviewPage/AllReviews";
+import { AppointmentHistoryPage } from "./layouts/AppointmentHistory/AppointmentHistoryPage";
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
@@ -55,6 +56,9 @@ export const App = () => {
               render={() => <LogInWidget config={oktaConfig} />}
             />
             <Route path="/login/callback" component={LoginCallback} />
+            <SecureRoute path="/appointments">
+              <AppointmentHistoryPage />
+            </SecureRoute>
           </Switch>
         </div>
         <Footer />
