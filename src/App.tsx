@@ -11,7 +11,7 @@ import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
 import { LoginCallback, SecureRoute, Security } from "@okta/okta-react";
 import LogInWidget from "./Auth/LogInWidget";
 import { AllReviews } from "./layouts/DoctorInfoPage/AllReviewPage/AllReviews";
-import { AppointmentHistoryPage } from "./layouts/AppointmentHistory/AppointmentHistoryPage";
+import { AppointmentPage } from "./layouts/AppointmentHistory/AppointmentPage";
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
@@ -57,7 +57,7 @@ export const App = () => {
             />
             <Route path="/login/callback" component={LoginCallback} />
             <SecureRoute path="/appointments">
-              <AppointmentHistoryPage />
+              <AppointmentPage />
             </SecureRoute>
           </Switch>
         </div>

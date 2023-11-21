@@ -5,7 +5,7 @@ import AppointmentHistoryModel from "../../../models/AppointmentHistoryModel";
 import { LoadingSpinner } from "../../utils/LoadingSpinner";
 import { Pagination } from "../../utils/Pagination";
 
-export const HistoryPage = () => {
+export const AppointmentHistoryPage = () => {
   const { authState } = useOktaAuth();
   const [isLoadingAppointmentHistory, setIsLoadingAppointmentHistory] =
     useState(true);
@@ -23,7 +23,7 @@ export const HistoryPage = () => {
   useEffect(() => {
     const retrieveUserAppointmentHistory = async () => {
       if (authState && authState.isAuthenticated) {
-        const url = `http://localhost:8080/shcms/appointmenthistory/search/findDoctorsByUserEmail?userEmail=${
+        const url = `http://localhost:8080/shcms/appointmentHistories/search/findDoctorsByUserEmail?userEmail=${
           authState.accessToken?.claims.sub
         }&page=${currentPage - 1}&size=5`;
         const requestOptions = {
@@ -39,8 +39,9 @@ export const HistoryPage = () => {
         const appointmentHistoryResponseJson =
           await appointmentHistoryResponse.json();
 
+        console.log(appointmentHistoryResponseJson);
         setAppointmentHistories(
-          appointmentHistoryResponseJson._embedded.histories
+          appointmentHistoryResponseJson._embedded.appointmentHistories
         );
         setTotalPages(appointmentHistoryResponseJson.page.totalPages);
       }

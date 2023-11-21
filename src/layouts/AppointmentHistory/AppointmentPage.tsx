@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Appointments } from "./components/Appointments";
+import { AppointmentHistoryPage } from "./components/AppointmentHistoryPage";
 
-export const AppointmentHistoryPage = () => {
+export const AppointmentPage = () => {
   const [historyClick, setHistoryClick] = useState(false);
 
   return (
