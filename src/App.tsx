@@ -13,6 +13,7 @@ import LogInWidget from "./Auth/LogInWidget";
 import { AllReviews } from "./layouts/DoctorInfoPage/AllReviewPage/AllReviews";
 import { AppointmentPage } from "./layouts/AppointmentHistory/AppointmentPage";
 import { QueryPage } from "./layouts/Message/QueryPage";
+import { ManageServicePage } from "./layouts/ManageServicePage/ManageServicePage";
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
@@ -62,6 +63,9 @@ export const App = () => {
             </SecureRoute>
             <SecureRoute path="/queries">
               <QueryPage />
+            </SecureRoute>
+            <SecureRoute path="/admin">
+              <ManageServicePage />
             </SecureRoute>
           </Switch>
         </div>
