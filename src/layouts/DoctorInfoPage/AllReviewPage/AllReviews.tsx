@@ -20,7 +20,9 @@ export const AllReviews = () => {
 
   useEffect(() => {
     const retrieveDoctorReviews = async () => {
-      const reviewUrl: string = `http://localhost:8080/shcms/reviews/search/findByDoctorId?doctorId=${doctorId}&page=${
+      const reviewUrl: string = `${
+        process.env.REACT_APP_API
+      }/reviews/search/findByDoctorId?doctorId=${doctorId}&page=${
         currentPage - 1
       }&size=${reviewsPerPage}`;
 

@@ -20,7 +20,7 @@ export const Appointments = () => {
   useEffect(() => {
     const retrieveUserCurrentAppointments = async () => {
       if (authState && authState.isAuthenticated) {
-        const url = `http://localhost:8080/shcms/doctors/secure/currentappointments`;
+        const url = `${process.env.REACT_APP_API}/doctors/secure/currentappointments`;
         const requestOptions = {
           method: "GET",
           headers: {
@@ -59,7 +59,7 @@ export const Appointments = () => {
   }
 
   async function cancelDoctor(doctorId: number) {
-    const url = `http://localhost:8080/shcms/doctors/secure/cancel?doctorId=${doctorId}`;
+    const url = `${process.env.REACT_APP_API}/doctors/secure/cancel?doctorId=${doctorId}`;
     const requestOptions = {
       method: "PUT",
       headers: {
@@ -75,7 +75,7 @@ export const Appointments = () => {
   }
 
   async function rescheduleAppointment(doctorId: number) {
-    const url = `http://localhost:8080/shcms/doctors/secure/reschedule/appointment?doctorId=${doctorId}`;
+    const url = `${process.env.REACT_APP_API}/doctors/secure/reschedule/appointment?doctorId=${doctorId}`;
     const requestOptions = {
       method: "PUT",
       headers: {

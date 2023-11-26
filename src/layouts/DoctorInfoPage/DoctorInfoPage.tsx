@@ -38,7 +38,7 @@ export const DoctorInfoPage = () => {
 
   useEffect(() => {
     const retrieveDoctor = async () => {
-      const baseUrl: string = `http://localhost:8080/shcms/doctors/${doctorId}`;
+      const baseUrl: string = `${process.env.REACT_APP_API}/doctors/${doctorId}`;
       const response = await fetch(baseUrl);
 
       if (!response.ok) {
@@ -69,7 +69,7 @@ export const DoctorInfoPage = () => {
 
   useEffect(() => {
     const retrieveDoctorReviews = async () => {
-      const reviewUrl: string = `http://localhost:8080/shcms/reviews/search/findByDoctorId?doctorId=${doctorId}`;
+      const reviewUrl: string = `${process.env.REACT_APP_API}/reviews/search/findByDoctorId?doctorId=${doctorId}`;
 
       const responseReviews = await fetch(reviewUrl);
 
@@ -117,7 +117,7 @@ export const DoctorInfoPage = () => {
   useEffect(() => {
     const retrieveUserReviewBook = async () => {
       if (authState && authState.isAuthenticated) {
-        const url = `http://localhost:8080/shcms/reviews/secure/user/doctor?doctorId=${doctorId}`;
+        const url = `${process.env.REACT_APP_API}/reviews/secure/user/doctor?doctorId=${doctorId}`;
         const requestOptions = {
           method: "GET",
           headers: {
@@ -143,7 +143,7 @@ export const DoctorInfoPage = () => {
   useEffect(() => {
     const retrieveUserCurrentAppointmentsCount = async () => {
       if (authState && authState.isAuthenticated) {
-        const url = `http://localhost:8080/shcms/doctors/secure/currentappointments/count`;
+        const url = `${process.env.REACT_APP_API}/doctors/secure/currentappointments/count`;
         const requestOptions = {
           method: "GET",
           headers: {
@@ -173,7 +173,7 @@ export const DoctorInfoPage = () => {
   useEffect(() => {
     const retrieveUserAppointmentDoctor = async () => {
       if (authState && authState.isAuthenticated) {
-        const url = `http://localhost:8080/shcms/doctors/secure/isappointment/byuser?doctorId=${doctorId}`;
+        const url = `${process.env.REACT_APP_API}/doctors/secure/isappointment/byuser?doctorId=${doctorId}`;
         const requestOptions = {
           method: "GET",
           headers: {
@@ -216,7 +216,7 @@ export const DoctorInfoPage = () => {
   }
 
   async function appointmentDoctor() {
-    const url = `http://localhost:8080/shcms/doctors/secure/appointment?doctorId=${doctor?.id}`;
+    const url = `${process.env.REACT_APP_API}/doctors/secure/appointment?doctorId=${doctor?.id}`;
     const requestOptions = {
       method: "PUT",
       headers: {
@@ -242,7 +242,7 @@ export const DoctorInfoPage = () => {
       doctorId,
       reviewDescription
     );
-    const url = `http://localhost:8080/shcms/reviews/secure`;
+    const url = `${process.env.REACT_APP_API}/reviews/secure`;
     const requestOptions = {
       method: "POST",
       headers: {

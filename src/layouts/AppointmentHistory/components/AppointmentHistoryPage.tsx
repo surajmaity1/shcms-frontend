@@ -23,7 +23,9 @@ export const AppointmentHistoryPage = () => {
   useEffect(() => {
     const retrieveUserAppointmentHistory = async () => {
       if (authState && authState.isAuthenticated) {
-        const url = `http://localhost:8080/shcms/appointmentHistories/search/findDoctorsByUserEmail?userEmail=${
+        const url = `${
+          process.env.REACT_APP_API
+        }/appointmentHistories/search/findDoctorsByUserEmail?userEmail=${
           authState.accessToken?.claims.sub
         }&page=${currentPage - 1}&size=5`;
         const requestOptions = {

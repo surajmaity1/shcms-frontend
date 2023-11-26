@@ -26,7 +26,9 @@ export const AdminQueries = () => {
   useEffect(() => {
     const retrieveUserQueries = async () => {
       if (authState && authState.isAuthenticated) {
-        const url = `http://localhost:8080/shcms/queries/search/findByClosed?closed=false&page=${
+        const url = `${
+          process.env.REACT_APP_API
+        }/queries/search/findByClosed?closed=false&page=${
           currentPage - 1
         }&size=${queriesPerPage}`;
         const requestOptions = {
@@ -67,7 +69,7 @@ export const AdminQueries = () => {
   }
 
   async function submitResponseToQueries(id: number, response: string) {
-    const url = `http://localhost:8080/shcms/queries/secure/admin/query`;
+    const url = `${process.env.REACT_APP_API}/queries/secure/admin/query`;
     if (
       authState &&
       authState?.isAuthenticated &&

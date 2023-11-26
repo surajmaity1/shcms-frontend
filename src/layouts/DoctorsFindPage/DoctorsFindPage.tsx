@@ -18,7 +18,7 @@ export const DoctorsFindPage = () => {
 
   useEffect(() => {
     const retrieveDoctor = async () => {
-      const baseUrl: string = "http://localhost:8080/shcms/doctors";
+      const baseUrl: string = `${process.env.REACT_APP_API}/doctors`;
 
       let url: string = "";
 

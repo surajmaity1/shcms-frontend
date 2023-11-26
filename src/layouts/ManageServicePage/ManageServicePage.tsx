@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { AdminQueries } from "./components/AdminQueries";
 import { RegisterNewDoctor } from "./components/RegisterNewDoctor";
+import { ModifyDoctorsAppointmentAvailability } from "./components/ModifyDoctorsAppointmentAvailability";
 
 export const ManageServicePage = () => {
   const { authState } = useOktaAuth();
@@ -92,7 +93,11 @@ export const ManageServicePage = () => {
             role="tabpanel"
             aria-labelledby="nav-quantity-tab"
           >
-            {changeNumberOfDoctorsClick ? <p>Change Availability</p> : <></>}
+            {changeNumberOfDoctorsClick ? (
+              <ModifyDoctorsAppointmentAvailability />
+            ) : (
+              <></>
+            )}
           </div>
           <div
             className="tab-pane fade"

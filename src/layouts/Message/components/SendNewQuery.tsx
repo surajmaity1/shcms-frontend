@@ -10,7 +10,7 @@ export const SendNewQuery = () => {
   const [displaySuccess, setDisplaySuccess] = useState(false);
 
   async function submitNewQuery() {
-    const url = `http://localhost:8080/shcms/queries/secure/send/query`;
+    const url = `${process.env.REACT_APP_API}/queries/secure/send/query`;
     if (authState?.isAuthenticated && query !== "" && description !== "") {
       const queryRequestModel: QueryModel = new QueryModel(query, description);
       const requestOptions = {

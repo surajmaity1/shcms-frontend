@@ -39,7 +39,7 @@ export const RegisterNewDoctor = () => {
   }
 
   async function registerNewDoctor() {
-    const url = `http://localhost:8080/shcms/admin/secure/register/doctor`;
+    const url = `${process.env.REACT_APP_API}/admin/secure/register/doctor`;
     if (
       authState?.isAuthenticated &&
       firstName !== "" &&
