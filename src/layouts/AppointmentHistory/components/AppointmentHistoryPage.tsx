@@ -41,7 +41,7 @@ export const AppointmentHistoryPage = () => {
         const appointmentHistoryResponseJson =
           await appointmentHistoryResponse.json();
 
-        console.log(appointmentHistoryResponseJson);
+        //console.log(appointmentHistoryResponseJson);
         setAppointmentHistories(
           appointmentHistoryResponseJson._embedded.appointmentHistories
         );
@@ -145,7 +145,7 @@ export const AppointmentHistoryPage = () => {
       ) : (
         <>
           <h3 className="mt-3">No Appointment History Available </h3>
-          <Link className="btn btn-primary" to={"find-doctor"}>
+          <Link className="btn btn-primary" to={"find-doctors"}>
             Find Other Doctors
           </Link>
         </>
