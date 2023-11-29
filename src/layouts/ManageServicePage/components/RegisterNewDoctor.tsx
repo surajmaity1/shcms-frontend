@@ -140,34 +140,34 @@ export const RegisterNewDoctor = () => {
                 >
                   <li>
                     <a
-                      onClick={() => departmentField("dept1")}
+                      onClick={() => departmentField("pharmacist")}
                       className="dropdown-item"
                     >
-                      Dept 1
+                      Pharmacist
                     </a>
                   </li>
                   <li>
                     <a
-                      onClick={() => departmentField("dept2")}
+                      onClick={() => departmentField("neurologist")}
                       className="dropdown-item"
                     >
-                      Dept 2
+                      Neurologist
                     </a>
                   </li>
                   <li>
                     <a
-                      onClick={() => departmentField("dept3")}
+                      onClick={() => departmentField("surgeon")}
                       className="dropdown-item"
                     >
-                      Dept 3
+                      Surgeon
                     </a>
                   </li>
                   <li>
                     <a
-                      onClick={() => departmentField("dept4")}
+                      onClick={() => departmentField("oncologist")}
                       className="dropdown-item"
                     >
-                      Dept 4
+                      Oncologist
                     </a>
                   </li>
                 </ul>

@@ -97,10 +97,10 @@ export const DoctorsFindPage = () => {
   const departmentField = (dept: string) => {
     setCurrentPage(1);
     if (
-      dept.toLowerCase() === "dept1" ||
-      dept.toLowerCase() === "dept2" ||
-      dept.toLowerCase() === "dept3" ||
-      dept.toLowerCase() === "dept4"
+      dept.toLowerCase() === "pharmacist" ||
+      dept.toLowerCase() === "neurologist" ||
+      dept.toLowerCase() === "surgeon" ||
+      dept.toLowerCase() === "oncologist"
     ) {
       setDepartment(dept);
       setSearchUrl(
@@ -163,24 +163,24 @@ export const DoctorsFindPage = () => {
                       All
                     </a>
                   </li>
-                  <li onClick={() => departmentField("dept1")}>
+                  <li onClick={() => departmentField("pharmacist")}>
                     <a className="dropdown-item" href="#">
-                      Dept 1
+                      Pharmacist
                     </a>
                   </li>
-                  <li onClick={() => departmentField("dept2")}>
+                  <li onClick={() => departmentField("neurologist")}>
                     <a className="dropdown-item" href="#">
-                      Dept 2
+                      Neurologist
                     </a>
                   </li>
-                  <li onClick={() => departmentField("dept3")}>
+                  <li onClick={() => departmentField("surgeon")}>
                     <a className="dropdown-item" href="#">
-                      Dept 3
+                      Surgeon
                     </a>
                   </li>
-                  <li onClick={() => departmentField("dept4")}>
+                  <li onClick={() => departmentField("oncologist")}>
                     <a className="dropdown-item" href="#">
-                      Dept 4
+                      Oncologist
                     </a>
                   </li>
                 </ul>

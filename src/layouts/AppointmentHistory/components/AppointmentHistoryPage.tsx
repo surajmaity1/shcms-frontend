@@ -41,7 +41,7 @@ export const AppointmentHistoryPage = () => {
         const appointmentHistoryResponseJson =
           await appointmentHistoryResponse.json();
 
-        //console.log(appointmentHistoryResponseJson);
+        console.log(appointmentHistoryResponseJson);
         setAppointmentHistories(
           appointmentHistoryResponseJson._embedded.appointmentHistories
         );
