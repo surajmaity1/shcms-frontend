@@ -14,6 +14,7 @@ import { AllReviews } from "./layouts/DoctorInfoPage/AllReviewPage/AllReviews";
 import { AppointmentPage } from "./layouts/AppointmentHistory/AppointmentPage";
 import { QueryPage } from "./layouts/Message/QueryPage";
 import { ManageServicePage } from "./layouts/ManageServicePage/ManageServicePage";
+import { PaymentPage } from "./layouts/PaymentPage/PaymentPage";
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
@@ -66,6 +67,9 @@ export const App = () => {
             </SecureRoute>
             <SecureRoute path="/admin">
               <ManageServicePage />
+            </SecureRoute>
+            <SecureRoute path="/appointment-fees">
+              <PaymentPage />
             </SecureRoute>
           </Switch>
         </div>

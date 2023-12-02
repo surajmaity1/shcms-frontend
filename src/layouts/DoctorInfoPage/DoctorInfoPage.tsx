@@ -34,6 +34,9 @@ export const DoctorInfoPage = () => {
   const [isLoadingDoctorAppointment, setIsLoadingDoctorAppointment] =
     useState(true);
 
+  // Payment
+  const [displayError, setDisplayError] = useState(false);
+
   const doctorId = window.location.pathname.split("/")[2];
 
   useEffect(() => {
@@ -226,8 +229,10 @@ export const DoctorInfoPage = () => {
     };
     const checkoutResponse = await fetch(url, requestOptions);
     if (!checkoutResponse.ok) {
+      setDisplayError(true);
       throw new Error("Error occurred");
     }
+    setDisplayError(false);
     setIsAppointment(true);
   }
 
@@ -264,6 +269,11 @@ export const DoctorInfoPage = () => {
   return (
     <div>
       <div className="container d-none d-lg-block">
+        {displayError && (
+          <div className="alert alert-danger mt-3" role="alert">
+            CANCEL EXPIRED APPOINTMENT AND/OR PAY APPOINTMENT FEES
+          </div>
+        )}
         <div className="row mt-5">
           <div className="col-sm-2 col-md-2">
             {doctor?.img ? (
@@ -300,6 +310,11 @@ export const DoctorInfoPage = () => {
         <ReviewsRecent reviews={reviews} doctorId={doctor?.id} mobile={false} />
       </div>
       <div className="container d-lg-none mt-5">
+        {displayError && (
+          <div className="alert alert-danger mt-3" role="alert">
+            CANCEL EXPIRED APPOINTMENT AND/OR PAY APPOINTMENT FEES
+          </div>
+        )}
         <div className="d-flex justify-content-center align-items-center">
           {doctor?.img ? (
             <img src={doctor?.img} width="226" height="349" alt="Doctor" />
